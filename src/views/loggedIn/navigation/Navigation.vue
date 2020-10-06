@@ -55,11 +55,11 @@ export default {
     return {
       user: {firstname: 'Chelsea', surname: 'Turner'},
       menu_items: [
-        {id: 1, position: 1, title: 'Dashboard', link: 'user_dashboard', icon: 'icon-dashboard', active: true},
-        {id: 2, position: 2, title: 'New Order', link: 'user_neworder', icon: 'icon-property', active: true},
-        {id: 2, position: 2, title: 'Order History', link: 'user_history', icon: 'icon-property', active: true},
-        {id: 2, position: 2, title: 'Subscription', link: 'user_subscription', icon: 'icon-property', active: true},
-        {id: 6, position: 6, title: 'Support', link: 'user_support', icon: 'icon-support', active: true},
+        {id: 1, position: 1, title: 'My Beer Journey', link: 'user_dashboard', icon: 'icon-dashboard', active: true},
+        {id: 2, position: 2, title: 'The Crawl', link: 'user_scan', icon: 'icon-property', active: true},
+        {id: 2, position: 2, title: 'Local Releases', link: 'user_local_releases', icon: 'icon-property', active: true},
+        {id: 2, position: 2, title: 'Not as Local Releases', link: 'local_releases', icon: 'icon-property', active: true},
+        {id: 6, position: 6, title: 'My Lists', link: 'user_lists', icon: 'icon-support', active: true},
       ]
     }
   },
@@ -69,6 +69,7 @@ export default {
           .catch(function(error){
             console.log("Already at this location. Navigation Ignored.")
           });
+      //window.scrollTo(0, 0);
     },
 
   }

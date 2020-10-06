@@ -55,26 +55,24 @@ export default {
 @import './styles/breakpoints.scss';
 
  .thebutton {border-radius: 0.2rem;
-            border: 0;
-            background-color: #2e8636;
+            border: 1px;
+            background-color: #3c1361;
             color: #f1f1f1;
-            font-size: 0.9rem;
+            font-size: 1rem;
             cursor: pointer;
             outline: none;
-            margin-top: 0.3rem;
+            margin-top: 0.0rem;
 
             @include respond-to('small'){
-
             }
             @include respond-to('medium'){
-
             }
             @include respond-to('large'){
 
             }
 
-            .icon {height: 1.2rem;
-                  width: 1.2rem;
+            .icon {height: 1.15rem;
+                  width: 1.15rem;
                   background-color: transparent;
                   color: #ffffff;
                   margin: 0.15rem;
@@ -113,7 +111,7 @@ export default {
         box-shadow: none;
         transition: background-color 50ms ease; }
 
-.clear:hover {background-color: #f4f4f4;}
+.clear:hover {background-color: #f4e7bd;}
 
 .small {font-size: 0.75rem;
         padding: 0.25rem 0.5rem;}
@@ -124,7 +122,7 @@ export default {
 .large {font-size: 1.2rem;
         padding: 0.75rem 1.25rem;}
 
-.low {box-shadow: 1px 2px 3px #dedede;}
-.middle {box-shadow: 1px 2px 8px #dedede;}
-.high {box-shadow: 1px 2px 12px #dedede;}
+//.low {box-shadow: 1px 2px 3px #443750;}
+//.middle {box-shadow: 1px 2px 8px #443750;}
+//.high {box-shadow: 1px 2px 12px #443750;}
 </style>

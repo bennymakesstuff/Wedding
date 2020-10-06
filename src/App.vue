@@ -2,18 +2,23 @@
   <div id="app">
     <MainMenu/>
     <router-view />
-    
+    <ScannerArea />
+    <footer-area/>
   </div>
 </template>
 
 <script>
 import MainMenu from './views/loggedOut/MainMenu.vue';
 import BottomMenu from './views/loggedOut/BottomMenu.vue';
+import ScannerArea from './views/loggedOut/ScannerArea.vue';
+import FooterArea from './views/loggedOut/Footer.vue';
 export default {
   name: "App",
   components: {
     'MainMenu':MainMenu,
-    'BottomMenu':BottomMenu
+    'BottomMenu':BottomMenu,
+    'ScannerArea':ScannerArea,
+    'footer-area':FooterArea
   },
   data: function(){
     return {}

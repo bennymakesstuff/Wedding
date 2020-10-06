@@ -45,10 +45,8 @@ export default {
 
 <style  lang="scss" scoped>
 .pane-container {   height: auto;
-                    width: 100%;
                     display: inline-block;
                     vertical-align: top;
-                    margin: 15px;
                     background-color: transparent;
                     position: relative;
                     //outline: 1px solid rgb(139, 139, 139);
@@ -64,7 +62,7 @@ export default {
       .title {height: 40px;
               width: 70px;
               position: absolute;
-              top: 10px;
+              top: 30px;
               left: 80px;
               color: #333333;
               font-weight: 200;
@@ -74,7 +72,7 @@ export default {
       .pane-logo {height: 60px;
                     width: 60px;
                     position: absolute;
-                    top: -10px;
+                    top: 10px;
                     left: 10px;
                     color: #eeeeee;
                     border-radius: 0.25rem;
@@ -82,15 +80,16 @@ export default {
                     padding-top: 5px;
                     text-align: center;
 
-                    svg {margin-left: auto;
-                      margin-right: auto;}
+                    svg {margin-left: 7px;
+                      margin-top: 8px;
+                      }
                   }
 
 
       .content {height: auto;
               width: calc(100% - 20px);
               position: relative;
-              padding-top: 60px;
+              padding-top: 80px;
               margin-left: 10px;
               color: #6a6a6a;
               font-weight: 200;
@@ -104,7 +103,7 @@ export default {
 .narrow {width: 200px !important;}
 .standard {width: 350px !important;}
 .wide {width: 650px !important;}
-.full {width: calc(100% - 5px) !important;}
+.full {width: calc(100%) !important;}
 
 .low-shadow {box-shadow: 1px 2px 4px #969393;}
 .high-shadow {box-shadow: 1px 2px 8px #969393;}

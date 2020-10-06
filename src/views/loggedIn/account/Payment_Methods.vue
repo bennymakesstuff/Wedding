@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="block">
     <div class="button-group">
       <b-button>Add Payment Method</b-button>
     </div>
@@ -32,6 +32,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.block {
+    width: 100%;
+    border: 1px solid red;
 
   .button-group {position: absolute;
                 top: 10px;
@@ -52,4 +55,5 @@ export default {
     .content {font-size: 0.8rem;
             color: #7e7e7e;}
   }
+}
 </style>

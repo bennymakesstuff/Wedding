@@ -6,7 +6,7 @@
       <icon-base slot="pane-icon" width="50px" height="50px"><user-icon/></icon-base>
       <personal-details slot="pane-content" />
     </pane>
-    <pane size="full" title="Payment Methods" color="#787878">
+    <pane v-if="PaymentMethod" size="full" title="Payment Methods" color="#787878">
       <icon-base slot="pane-icon" width="50px" height="50px"><shield-icon/></icon-base>
       <payment-methods slot="pane-content"/>
     </pane>
@@ -40,7 +40,7 @@ export default {
   },
   data: function(){
     return {
-
+      //PaymentMethod: false
     }
   },
 };
@@ -51,7 +51,8 @@ export default {
 .application {font-size: 0.8rem;
               height: auto;
               text-align: left;
-              padding: 1rem;
+              padding: 0.5rem;
+              padding-bottom: 8rem;
 
   h1 {font-size: 1.5rem;
       margin: 0;}

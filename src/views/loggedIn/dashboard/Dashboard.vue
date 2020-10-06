@@ -1,53 +1,7 @@
 <template>
   <div class="application">
-    <h1>Dashboard</h1>
+    <h1>Beer Feed</h1>
 
-    <!--<system-alert color="#9c1a1a" title="System Announcement"/>-->
-    <div class="quickstats"></div>
-    <div class="quicklinks">
-      <h3>Quick Links</h3>
-      <quicklink title="My Bank" color="#99c288">
-        <icon-base slot="quicklink-icon" width="50px" height="50px">
-          <today-icon/>
-        </icon-base>
-      </quicklink>
-
-      <quicklink title="Property Details" color="#88afc2">
-        <icon-base slot="quicklink-icon" width="50px" height="50px">
-          <today-icon/>
-        </icon-base>
-      </quicklink>
-
-      <quicklink title="Switch Property" color="#c288b7">
-        <icon-base slot="quicklink-icon" width="50px" height="50px">
-          <today-icon/>
-        </icon-base>
-      </quicklink>
-
-      <quicklink title="Get Support" color="#bfc288">
-        <icon-base slot="quicklink-icon" width="50px" height="50px">
-          <today-icon/>
-        </icon-base>
-      </quicklink>
-    </div>
-
-    <widget size="narrow" color="#286fb8" title="Total Savings">
-      <icon-base slot="widget-icon" width="40px" height="40px"><today-icon/></icon-base>
-      <bdu-visits-today slot="widget-content"/>
-    </widget>
-
-    <widget size="narrow" color="" title="Last Order Savings">
-      <directory-visits-today slot="widget-content"/>
-    </widget>
-
-    <widget size="narrow" color="" title="Annual Savings">
-      <bookings-today slot="widget-content"/>
-    </widget>
-
-    <widget size="standard" color="" title="Order History (Last 4)"/>
-    <widget size="standard" color="#cf932c" title="Re-order Last Box"/>
-    <widget size="narrow" color="#cf4e2c" title="Raise Claim"/>
-    <widget size="standard" color="#cf932c" title="This Weeks Specials"/>
   </div>
 </template>
 
@@ -93,6 +47,7 @@ export default {
               text-align: left;
               padding: 1rem;
               color: #131517;
+
 
 .quicklinks {padding-bottom: 10px;
               padding-top: 5px;

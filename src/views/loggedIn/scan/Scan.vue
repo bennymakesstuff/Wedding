@@ -1,21 +1,19 @@
 <template>
   <div class="application">
-    <h1>Order History</h1>
-    <h2>You can use these older orders to regenerate invoices, create subscriptions or re-order.</h2>
+    <h1>Scan-a-brew</h1>
+    <h2>Scan a beer to check if you have had it before</h2>
+    <scanner/>
   </div>
 </template>
 
 
 <script>
+import Scanner from '../../../ui/scanner2.vue';
 
 export default {
-  name: 'history',
+  name: 'neworder',
   components: {
-  },
-  data: function(){
-    return {
-
-    }
+    'scanner':Scanner
   },
 };
 
@@ -25,7 +23,7 @@ export default {
 .application {font-size: 0.8rem;
               height: auto;
               text-align: left;
-              padding: 1rem;
+              padding: 0.5rem;
               color: #131517;
 
   h1 {font-size: 1.5rem;}

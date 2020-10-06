@@ -6,7 +6,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: null
+    user: null,
+    scanner: {
+      isOpen: true,
+      code: null
+    }
   },
   mutations: {
     login_user (state, userData) {
@@ -36,6 +40,9 @@ export default new Vuex.Store({
       router.push({name:'login'});
       localStorage.removeItem('user');
       localStorage.removeItem('token');
+    },
+    toggleScanner(state, data){
+      state.scanner.isOpen = data;
     }
   },
   actions: {
@@ -44,6 +51,9 @@ export default new Vuex.Store({
     },
     logout (context) {
       context.commit('logout_user');
+    },
+    toggle_scanner (context, data){
+      context.commit('toggleScanner', data);
     }
   },
   modules: {}

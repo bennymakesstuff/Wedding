@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 const application_settings = {
-  title: "Edibundle",
+  title: "Have I Had This Beer",
   filename: "index.html",
   template: "./src/index.html"
 };
@@ -53,7 +53,13 @@ module.exports = {
             options: { esModule: false }
           }
         ]
-      }
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [
+          'file-loader',
+        ],
+      },
     ]
   },
 

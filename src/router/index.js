@@ -45,6 +45,51 @@ const routes = [
       import(/* webpackChunkName: "register" */ "../views/loggedOut/Register.vue")
   },
   {
+    path: "/work-with-us",
+    name: "workwithus",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "register" */ "../views/loggedOut/WorkWithUs.vue")
+  },
+  {
+    path: "/privacy",
+    name: "privacy",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "register" */ "../views/loggedOut/PrivacyPolicy.vue")
+  },
+  {
+    path: "/local-releases",
+    name: "local_releases",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "register" */ "../views/loggedOut/LocalReleases.vue")
+  },
+  {
+    path: "/brewery/:id",
+    name: "brewery",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "register" */ "../views/loggedOut/breweries/Profile.vue")
+  },
+  {
+    path: "/venue/:id",
+    name: "venue",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "register" */ "../views/loggedOut/venues/Profile.vue")
+  },
+  {
     path: "/admin",
     name: "admin",
     meta: {
@@ -106,13 +151,22 @@ const routes = [
       }
     },
     {
-      path: 'history',
-      name: 'user_history',
+      path: 'mylists',
+      name: 'user_lists',
       components: {
         default: () =>
-          import(/* webpackChunkName: "dashboard" */ "../views/loggedIn/history/OrderHistory.vue"),
+          import(/* webpackChunkName: "dashboard" */ "../views/loggedIn/mylists/MyLists.vue"),
       }
-    },{
+    },
+    {
+      path: 'local-releases',
+      name: 'user_local_releases',
+      components: {
+        default: () =>
+          import(/* webpackChunkName: "dashboard" */ "../views/loggedIn/local_releases/LocalReleases.vue"),
+      }
+    },
+    {
       path: 'ideas',
       name: 'user_ideas',
       components: {
@@ -120,11 +174,11 @@ const routes = [
           import(/* webpackChunkName: "dashboard" */ "../views/loggedIn/ideas/Ideas.vue"),
       }
     },{
-      path: 'neworder',
-      name: 'user_neworder',
+      path: 'scan',
+      name: 'user_scan',
       components: {
         default: () =>
-          import(/* webpackChunkName: "dashboard" */ "../views/loggedIn/neworder/NewOrder.vue"),
+          import(/* webpackChunkName: "dashboard" */ "../views/loggedIn/scan/Scan.vue"),
       }
     },{
       path: 'support',
@@ -190,6 +244,7 @@ router.beforeEach((to, from, next) => {
     }else {
         next()
     }
+    window.scrollTo(0, 0);
 })
 
 

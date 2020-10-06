@@ -1,22 +1,22 @@
-# EdiBundle
-### Edibundle is a Market to Home food supply business.
-### It sources food ordered in premade or custom made packs from local market suppliers
-### then packages and delivers it to the customers.
+# HaveIHadThis.beer
+### HaveIHadThis Beer is an app for discovery, tracking and enjoyment of beers.  
+### The idea is to offer an Aussie alternative to the current beer apps on the market with a focus on highlighting Australian local
+### The app is designed to be highly visual and work with breweries to assist releases, market to consumers and sell merch.
 
 ## Core Features
-- Customers can order online
-- Customers can pay online
-- Customers can save regular orders for future reorder
-- Customers can choose from premade boxes
-- Customers can submit photos for issues
-- App creates stickers for customer boxes
-- App creates picking slips for orders
-- App creates travel route for customers and sends customers a message with delivery window
-- App send customers message with delivery and order confirmations as well as order window closing times
+- Show curated beer lists
+- List every Aussie brewery
+- Create personalized notifications for beer releases / RRS Feeds
+- Sell merch on behalf of our breweries
+- Highlight new releases
+- Create lists to search and track collections
+- Create a subculture of beer swapping
+- Help collecters source beers they may have missed
+- Provide info on Aussie breweries
 
 ## Future Features
-- Other suppliers
-- Reporting on suppliers
+- Merch / Beer Purchasing
+- Reporting for suppliers
 
 
 ## Project setup

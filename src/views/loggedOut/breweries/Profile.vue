@@ -3,25 +3,18 @@
     <div class="hero">
       <div class="hero_inner">
         <div class="title_area">
-          <h1>Got a beer obsession</h1>
-          <h1>to keep track of</h1>
-          <br>
-          <h1>Same here</h1>
+          <h1>Brewery Profile</h1>
         </div>
 
       </div>
     </div>
-    <latest-local-releases/>
-    <latest-afar-releases/>
   </div>
 </template>
 
 <script>
-import LatestLocalReleases from './LatestLocalReleases.vue';
-import LatestAfarReleases from './LatestAfarReleases.vue';
 
 export default {
-  name: "Home",
+  name: "BreweryProfile",
   components: {
     'latest-local-releases':LatestLocalReleases,
     'latest-afar-releases':LatestAfarReleases,
@@ -32,13 +25,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '../../ui/styles/colors.scss';
-@import '../../ui/styles/breakpoints.scss';
-@import '../../ui/styles/globals.scss';
+@import '../../../ui/styles/colors.scss';
+@import '../../../ui/styles/breakpoints.scss';
+@import '../../../ui/styles/globals.scss';
 
 @font-face {
   font-family: 'goma';
-  src: url('../../ui/goma_block.ttf') format('truetype');
+  src: url('../../../ui/goma_block.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }

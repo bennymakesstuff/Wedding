@@ -1,17 +1,20 @@
 <template>
   <div class="application">
-    <h1>New Order</h1>
-    <h2>Start adding items to create a new order.</h2>
-    <h2>If you wish to you can give the order a familiar name and purchase order number for later re-order, reference or subscription.</h2>
+    <local-releases/>
+
   </div>
 </template>
 
 
 <script>
 
+//Widgets
+import LocalReleases from '../../loggedOut/LocalReleases.vue';
+
 export default {
-  name: 'neworder',
+  name: 'dashboard',
   components: {
+    'local-releases': LocalReleases,
   },
   data: function(){
     return {
@@ -28,6 +31,11 @@ export default {
               text-align: left;
               padding: 1rem;
               color: #131517;
+
+
+.quicklinks {padding-bottom: 10px;
+              padding-top: 5px;
+            border-bottom: 1px solid #e3e3e3;}
 
   h1 {font-size: 1.5rem;}
   h3 {color: #8b8b8b;}

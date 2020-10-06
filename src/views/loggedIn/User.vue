@@ -43,7 +43,7 @@ export default {
                   color: $accountMenuBackground;
                   font-size: 0.8;
                   position: fixed;
-                  top: 4rem;
+                  top: $mainMenuHeight;
                   left: calc(0px - #{$menu_width});
 
                   @include respond-to('medium'){
