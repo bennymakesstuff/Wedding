@@ -17,6 +17,7 @@
 ## Future Features
 - Merch / Beer Purchasing
 - Reporting for suppliers
+- Test Push 1
 
 
 ## Project setup
