@@ -3,8 +3,8 @@
     <div class="hero">
       <div class="hero_inner">
         <div class="title_area">
-          <h1>Local Releases</h1>
-          <h2>Beers based on your location.</h2>
+          <h1 :class="[this.$store.state.displayMode]">Local Releases</h1>
+          <h2 :class="[this.$store.state.displayMode]">Beers based on your location.</h2>
         </div>
       </div>
     </div>
@@ -164,7 +164,6 @@ export default {
 
 .hero {min-height: 2rem;
       width: 100%;
-      background-color: #ffffff;
       padding-bottom: 1rem;
       line-height: 1rem;
       height: auto;
@@ -190,6 +189,7 @@ export default {
                                 font-size: 0;
                                 position: relative;
 
+                                h1.dark {color: $darkModeText;}
                                 h1 {font-size: 1.5rem;
                                   line-height: 1.5rem;
                                     font-weight: 400;
@@ -199,6 +199,7 @@ export default {
                                     color: $mainGray;
                                     text-shadow: 0px 1px 5px $heroTextShadow;}
 
+                                h2.dark {color: darken($darkModeText, 30%);}
                                 h2 {font-size: 1rem;
                                   line-height: 1rem;
                                     font-weight: 400;

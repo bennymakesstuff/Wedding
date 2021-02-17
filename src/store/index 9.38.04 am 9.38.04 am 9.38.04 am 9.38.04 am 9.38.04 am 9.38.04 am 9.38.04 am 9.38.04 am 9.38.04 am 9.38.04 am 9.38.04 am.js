@@ -10,7 +10,6 @@ import axios from 'axios';
 
 //const server = 'http://192.168.1.220:8001/'
 const server = 'http://localhost:8001/'
-//const server = 'https://dev-api.haveihadthis.beer/'
 
 //Error Reporting
 const Reporting = false;
@@ -34,16 +33,12 @@ export default new Vuex.Store({
     showButtons: false,
     reporting: false,
     drinks_session: null,
-    seshStarted: false,
     session: {
-      session_name: '',
-      thecrew: [],
-      session_owner: '',
-      session_code: '',
-      started_at: null,
-      session_log: []
+      started: false,
+      title: '',
     }
   },
+
 
   mutations: {
     OPEN_MENU (state){
@@ -75,12 +70,12 @@ export default new Vuex.Store({
 
       if(user.currentSession!=null){
         var sesh = user.currentSession;
-        state.session.session_code = sesh.session_code;
-        state.session.session_name = sesh.session_name;
-        state.session.session_owner = sesh.session_owner;
-        state.seshStarted = true;
+        state.session.code = sesh.session_code;
+        state.session.title = sesh.session_name;
+        state.session.owner = sesh.session_owner;
+        state.session.started = true;
         state.session.started_at = sesh.created_at;
-        state.session.thecrew = sesh.thecrew;
+        state.session.crew = sesh.thecrew;
       }
       state.user = user;
       localStorage.setItem('user', JSON.stringify(user));
@@ -141,44 +136,38 @@ export default new Vuex.Store({
 
     //Adds Session Code to drinks session
     START_DRINK_SESSION (state, sesh){
-      state.session.session_code = sesh.session_code;
-      state.session.session_name = sesh.session_name;
-      state.session.session_owner = sesh.session_owner;
-      state.seshStarted = true;
+      state.session.code = sesh.session_code;
+      state.session.title = sesh.session_name;
+      state.session.owner = sesh.session_owner;
+      state.session.started = true;
       state.session.started_at = sesh.created_at;
     },
 
     //Adds Session Code to drinks session
     JOIN_DRINK_SESSION (state, sesh){
-      state.session.session_code = sesh.session_code;
-      state.session.session_name = sesh.session_name;
-      state.session.session_owner = sesh.session_owner;
-      state.session.session_log = sesh.session_log;
-      state.seshStarted = true;
-      state.session.started_at = sesh.created_at;
-      state.session.thecrew = sesh.thecrew;
-    },
-    //REFRESHES Session Code to drinks session
-    REFRESH_DRINK_SESSION (state, sesh){
-      console.log("--SESHDATA--");
-      /*state.session.code = sesh.session_code;
+      state.session.code = sesh.session_code;
       state.session.title = sesh.session_name;
       state.session.owner = sesh.session_owner;
       state.session.started = true;
       state.session.started_at = sesh.created_at;
-      state.session.crew = sesh.thecrew;*/
-      Vue.set(state,'session',sesh);
+      state.session.crew = sesh.thecrew;
+    },
+    //REFRESHES Session Code to drinks session
+    REFRESH_DRINK_SESSION (state, sesh){
+      console.log("--SESHDATA--");
+      console.log(sesh.thecrew);
+      state.session.code = sesh.session_code;
+      state.session.title = sesh.session_name;
+      state.session.owner = sesh.session_owner;
+      state.session.started = true;
+      state.session.started_at = sesh.created_at;
+      state.session.crew = sesh.thecrew;
     },
     LEAVE_DRINK_SESSION (state, sesh){
-      state.seshStarted = false,
       state.session = {
-        session_name: '',
-        thecrew: [],
-        session_owner: '',
-        session_code: '',
-        started_at: null,
-        session_log: [],
-      };
+                      started: false,
+                      title: '',
+                    };
     }
   },
 
@@ -384,7 +373,7 @@ export default new Vuex.Store({
 
 //Join a drinks session
   join_drinks_session(context, sessionCode){
-    console.log(sessionCode);
+
     return new Promise((resolve, reject) => {
 
             //Request the users user data
@@ -393,7 +382,7 @@ export default new Vuex.Store({
                 const joinSessionResponseFromServer = resp.data.response;
                 console.log(joinSessionResponseFromServer);
                 if(joinSessionResponseFromServer===true){
-                  console.log(resp.data.payload);
+
                   //New Session Created Successfully
                   context.commit('JOIN_DRINK_SESSION', resp.data.payload);
                   resolve(resp);
@@ -411,17 +400,8 @@ export default new Vuex.Store({
         });
   },
 
-
-
   //Refresh a drinks session
-    refresh_drinks_session(context, drinksSession){
-
-      //Refreshed Session Created Successfully
-      context.commit('REFRESH_DRINK_SESSION', drinksSession);
-
-    },
-  //Refresh a drinks session
-  /*  refresh_drinks_session(context, sessionCode){
+    refresh_drinks_session(context, sessionCode){
 
       return new Promise((resolve, reject) => {
 
@@ -448,7 +428,7 @@ export default new Vuex.Store({
                 })
           });
     },
-*/
+
 
     //Leave a drinks session
       leave_drinks_session(context){

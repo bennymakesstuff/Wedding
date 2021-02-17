@@ -1,6 +1,6 @@
 <template>
-  <div class="menu">
-    <div class="logo_area"></div>
+  <div :class="['menu', dispMode]">
+    <div :class="['logo_area',dispMode]"></div>
     <div class="button_area">
       <div class="large_menu">
         <router-link v-if="!userLoggedIn" :to="{ name: 'home'}" class="menu_item">Home</router-link>
@@ -10,7 +10,7 @@
         <router-link v-if="userLoggedIn && !userIsAdmin" :to="{ name: 'about'}" class="menu_item">My Lists</router-link>
         <div v-if="userLoggedIn" @click="logout" class="menu_item">Logout</div>
       </div>
-      <button class="menu_trigger" @click="openMenu()">
+      <button :class="['menu_trigger',dispMode]" @click="menuControl('open')">
         <div class="icon">
           <div class="menu_bar"/>
           <div class="menu_bar"/>
@@ -18,7 +18,7 @@
         </div>
         <div class="text">Menu</div>
       </button>
-      <button class="menu_login" v-if="!userLoggedIn" @click="navigateTo('login')">
+      <button :class="['menu_login',dispMode]" v-if="!userLoggedIn" @click="gotToPage('login')">
         <div class="icon">
 
         </div>
@@ -26,54 +26,58 @@
       </button>
     </div>
 
-    <div :class="['mobile_menu_page_overlay', overlayStatus]" @click="closeMenu()"></div>
-    <div :class="['mobile_menu', mobileMenuStatus]">
-      <div class="logo_area_mobile_menu">
-        <div class="logo_inner">
+    <div :class="['mobile_menu_page_overlay', overlayStatus]" @click="menuControl('close')"></div>
+    <div :class="['mobile_menu', mobileMenuStatus, dispMode]">
+      <div :class="['logo_area_mobile_menu',dispMode]">
+        <div :class="['logo_inner', dispMode]">
           <div class="beta">BETA</div>
         </div>
       </div>
-      <div class="mobile_menu_item scan_item" @click="openScanner()">
+      <div class="mobile_menu_item scan_item" @click="openScanner()" v-if="this.$store.state.scanning==true">
         <div class="scan_button">
           <div class="scan_logo"></div>
           <div class="scan_text">Scan a Brew</div>
         </div>
       </div>
-      <div class="mobile_menu_item" v-if="userLoggedIn" @click="navigateTo('home')">
+      <div :class="['mobile_menu_item',dispMode]" v-if="userLoggedIn" @click="gotToPage('user_account')">
         <div class="icon"></div>
-        <div class="text">My Beer Journey</div>
+        <div class="text">{{this.$store.state.user.given_name}}</div>
       </div>
-      <div class="mobile_menu_item" v-if="!userLoggedIn" @click="navigateTo('home')">
+      <div :class="['mobile_menu_item',dispMode]" v-if="!userLoggedIn" @click="gotToPage('home')">
         <div class="icon"></div>
         <div class="text">Home</div>
       </div>
-      <div class="mobile_menu_item" v-if="userLoggedIn" @click="navigateTo('thecrawl')">
+      <div :class="['mobile_menu_item',dispMode]" v-if="userLoggedIn" @click="gotToPage('thecrawl')">
         <div class="icon"></div>
-        <div class="text">The Crawl</div>
+        <div class="text">My Sessions</div>
       </div>
-      <div class="mobile_menu_item" @click="navigateTo('local_releases')">
-        <div class="icon"></div>
-        <div class="text">Local Releases</div>
-      </div>
-      <div class="mobile_menu_item" @click="navigateTo('local_releases')">
-        <div class="icon"></div>
-        <div class="text">Not as Local Releases</div>
-      </div>
-      <div class="mobile_menu_item" v-if="userLoggedIn" @click="navigateTo('user_lists')">
+      <div :class="['mobile_menu_item',dispMode]" v-if="userLoggedIn" @click="gotToPage('user_lists')">
         <div class="icon"></div>
         <div class="text">My Lists</div>
       </div>
-      <div class="mobile_menu_item" v-if="!userLoggedIn" @click="navigateTo('login')">
+      <div :class="['mobile_menu_item',dispMode]" @click="gotToPage('local_releases')">
+        <div class="icon"></div>
+        <div class="text">Local Releases</div>
+      </div>
+      <div :class="['mobile_menu_item',dispMode]" @click="gotToPage('local_releases')">
+        <div class="icon"></div>
+        <div class="text">Not as Local Releases</div>
+      </div>
+      <div :class="['mobile_menu_item',dispMode]" v-if="!userLoggedIn" @click="gotToPage('login')">
         <div class="icon"></div>
         <div class="text">Login</div>
       </div>
-      <div class="mobile_menu_item" v-if="userLoggedIn" @click="logout(), navigateTo('home')">
+      <div :class="['mobile_menu_item',dispMode]" v-if="userLoggedIn" @click="logout()">
         <div class="icon"></div>
         <div class="text">Logout</div>
       </div>
-      <div class="mobile_menu_item" v-if="!userLoggedIn" @click="navigateTo('register')">
+      <div :class="['mobile_menu_item',dispMode]" v-if="!userLoggedIn" @click="gotToPage('register')">
         <div class="icon"></div>
         <div class="text">Sign up</div>
+      </div>
+      <div :class="['mobile_menu_item', 'dark-mode-toggle',dispMode]">
+        <div class="icon"><input type="checkbox" :checked="isDarkModeOn" class="regular-checkbox big-checkbox" @click="toggleDarkMode"/></div>
+        <div class="text">Dark Mode</div>
       </div>
     </div>
   </div>
@@ -100,11 +104,21 @@ export default {
                 icon: true,
                 shadow: 'low',
                 location: 'login'},
-      mobile_menu_open: true,
-      overlay_open: true
-              }
+          }
   },
   computed: {
+    isDarkModeOn: function(){
+      return (this.$store.state.displayMode=='dark') ? 'checked' : '';
+    },
+    dispMode: function(){
+      return  this.$store.state.displayMode;
+    },
+    mobile_menu_open: function(){
+        return this.$store.state.menu.isOpen;
+    },
+    overlay_open: function(){
+        return this.$store.state.menu.isOpen;
+    },
     userLoggedIn: function(){
       if(this.$store.state.user==null){
         return false;
@@ -139,30 +153,33 @@ export default {
     }
   },
   methods: {
+    toggleDarkMode: function(){
+      this.$store.dispatch('toggle_dark_mode');
+    },
     logout: function(){
       this.$store.dispatch('logout');
+      this.menuControl('close');
+    },
+    gotToPage: function(page){
+      this.$store.dispatch('change_page', page);
+      this.menuControl('close');
     },
     navigateTo: function(location){
         this.$router.push({name: location})
           .catch(function(error){
             console.log("Already at this location. Navigation Ignored.")
           });
-          this.closeMenu();
+          this.menuControl('close');
           //window.scrollTo(0, 0);
     },
-    closeMenu: function(){
-      this.mobile_menu_open = false;
-      this.overlay_open = false;
-    },
-    openMenu: function(){
-      this.mobile_menu_open = true;
-      this.overlay_open = true;
+    menuControl: function(action){
+      this.$store.dispatch('menu_control', action);
     },
     closeScanner: function(){
       this.$store.dispatch('toggle_scanner', false);
     },
     openScanner: function(){
-      this.closeMenu();
+      this.menuControl('close');
       this.$store.dispatch('toggle_scanner', true);
     }
   }
@@ -172,6 +189,61 @@ export default {
 @import '../../ui/styles/colors.scss';
 @import '../../ui/styles/breakpoints.scss';
 @import '../../ui/styles/globals.scss';
+
+
+.dark-mode-toggle {position: absolute;
+                  bottom: 0;
+                  left: 0;
+                  width: 100%;
+
+            > .icon {
+
+                > .regular-checkbox{
+                  -webkit-appearance: none;
+                  	background-color: #fafafa;
+                  	border: 1px solid #cacece;
+                  	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+                  	padding: 9px;
+                    margin: 1rem;
+                  	border-radius: 3px;
+                  	display: inline-block;
+                  	position: relative;
+                  }
+
+                  > .regular-checkbox:active, > .regular-checkbox:checked:active {
+                    	//box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+                      outline: none;
+                    }
+
+                  > .regular-checkbox:checked {
+                    	background-color: #e9ecee;
+                    	border: 1px solid #adb8c0;
+                      outline: none;
+                    	//box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+                    	color: #99a1a7;
+                    }
+
+                    > .regular-checkbox:checked:after {
+                      	content: '\2714';
+                      	font-size: 14px;
+                        outline: none;
+                      	position: absolute;
+                      	top: 0px;
+                      	left: 3px;
+                      	color: #1c558a;
+                      }
+
+                    > .big-checkbox {
+                      	padding: 15px;
+                      }
+
+                    > .big-checkbox:checked:after {
+                      	font-size: 23px;
+                      	left: 6px;
+                      }
+                }
+              }
+
 
 .loginButton {
   @include respond-to('small'){
@@ -185,10 +257,13 @@ export default {
   }
 }
 
+
+.menu.dark {background-color: $darkModeMainHeader;
+            color: #e3e3e3;
+            box-shadow: 0px 0px 5px #101112;}
+
 .menu {height: $mainMenuHeight;
       width: 100%;
-      background-color: $mainMenuColor;
-      color: $mainMenuTextColor;
       position: fixed;
       z-index: 100;
       top: 0;
@@ -289,6 +364,7 @@ export default {
                         }
                   }
 
+                .menu_trigger.dark:hover {background-color: lighten($darkModeMainHeader, 10%);}
                 .menu_trigger:hover {background-color: #fff7da;}
 
 
@@ -303,6 +379,8 @@ export default {
                            cursor: pointer;
                            outline: none;
                            padding: 0.45rem;
+                           background: transparent url('../../assets/user-login-button.png') no-repeat;
+                           background-size: contain;
 
                            @include respond-to('small'){
 
@@ -352,11 +430,14 @@ export default {
                               }
                         }
 
+                      .menu_login.dark:hover {background-color: lighten($darkModeMainHeader, 10%);}
                       .menu_login:hover {background-color: #fff7da;}
                       }
 
 
-
+      .logo_area.dark {background: transparent url('../../assets/haveihadlight.png') no-repeat;
+                      background-size: contain;
+                      background-position: center;}
       .logo_area {width: auto;
                   position: absolute;
                   top: 0.3rem;
@@ -384,29 +465,39 @@ export default {
 .mobile_menu_page_overlay {background-color: rgba(#4f4f4f, 0.4);
                           position: fixed;
                           top: 0;
+                          z-index: 110;
                           height: 100vh;
                           width: 100vw;}
 
 .overlay_closed {left: -110vw;}
 .overlay_open {left: 0;}
 
+.mobile_menu.light {background-color: $mobileMenuColor;}
+
+.mobile_menu.dark {background-color: $darkModeBGColor;
+                  color: #e3e3e3;
+                  box-shadow: $darkMenuShadow}
+
 .mobile_menu {position: fixed;
               top: 0;
               width: $mobileMenuWidth;
               height: 100vh;
+              z-index: 120;
               background-color: $mobileMenuColor;
               box-shadow: $mobileMenuShadow;
               transition: left 100ms ease;
 
 
-
+              .logo_area_mobile_menu.dark {border-bottom: 1px solid #222328;}
               .logo_area_mobile_menu {width: 100%;
                         border-bottom: 1px solid #e6e6e6;
                         text-align: center;
                         height: 6rem;
                         line-height: 6rem;
 
-
+                    .logo_inner.dark {background: transparent url('../../assets/haveihadlight.png') no-repeat;
+                                      background-position: center;
+                                      background-size: contain;}
                     .logo_inner {height: 4rem;
                                 width: 12rem;
                                 background: transparent url('../../assets/logo_color_600w_beta.png') no-repeat;
@@ -436,22 +527,23 @@ export default {
                             height: 0.8rem;}
 
                       }
-
+          .mobile_menu_item.dark {border-bottom: 1px solid #222328;}
           .mobile_menu_item {border-bottom: 1px solid #e6e6e6;
                             height: 4rem;
                             padding: 0;
                             line-height: 4rem;
                             text-align: left;
+                            cursor: pointer;
 
 
-                            .icon {height: 4rem;
+                            > .icon {height: 4rem;
                                   width: 4rem;
-                                  background-color: #f0f0f0;
+                                  background-color: transparent;
                                   line-height: 4rem;
                                   display: inline-block;
                                   vertical-align: top;}
 
-                            .text {height: 4rem;
+                            > .text {height: 4rem;
                                   line-height: 4rem;
                                   padding: 0rem 0.7rem;
                                   display: inline-block;
@@ -499,6 +591,9 @@ export default {
                         color: #ffffff;}
             }
           }
+
+        .mobile_menu_item.dark:hover {background-color: #232d38;}
+        .mobile_menu_item:hover {background-color: #eeeeee;}
 
         .scan_item {text-align: center;
                     height: 5.5rem;

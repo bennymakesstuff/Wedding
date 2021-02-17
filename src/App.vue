@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
+  <div id="app" :class="[this.$store.state.displayMode]">
     <MainMenu/>
     <router-view />
-    <ScannerArea />
-    <footer-area/>
+    <ScannerArea v-if="isPermissionGranted"/>
+    <footer-area v-if="this.$store.state.user==null" />
   </div>
 </template>
 
@@ -21,8 +21,33 @@ export default {
     'footer-area':FooterArea
   },
   data: function(){
-    return {}
+    return {
+      isPermissionGranted: false,
+    }
   },
+  methods: {
+    cameraPermission: function(){
+      navigator.permissions.query({name: 'camera'})
+      .then((permissionObj) => {
+       console.log(permissionObj.state);
+       if(permissionObj.state=='prompt'){
+         this.requestPermissions();
+       }
+      })
+      .catch((error) => {
+       console.log('Got error :', error);
+      })
+    },
+    requestPermissions: function(){
+      //MediaDevices.getUserMedia().then(function(permission) {
+      //Notification.requestPermission().then(function(permission) {
+        //DO a thing
+      //});
+    }
+  },
+  mounted() {
+    this.cameraPermission();
+  }
 };
 </script>
 
@@ -33,6 +58,8 @@ export default {
 
 body {padding: 0;
       margin: 0;}
+
+#app.dark {background-color: darken($darkModeMainHeader,5%);}
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

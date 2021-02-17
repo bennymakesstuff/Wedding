@@ -61,7 +61,7 @@ export default {
 }
 
 .footer-area {width: 100%;
-              background-color: $mainGray;
+              background-color: $darkModeMainHeader;
               color: #ffffff;
               min-height: 10rem;
               height: auto;

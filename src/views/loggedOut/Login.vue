@@ -2,17 +2,18 @@
   <div class="login">
     <div class="login_area">
       <div class="login_box">
-        <h2>Login for beer</h2>
+        <h2 :class="[dispMode]">Login for beer</h2>
         <div class="input_area">
-          <div class="field">
-            <input type="text" placeholder=" " v-model.trim="userInfo.username">
+          <div :class="['field',dispMode]">
+            <input type="text" placeholder=" " v-model.trim="userInfo.email">
             <div class="label">Email Address</div>
           </div>
-          <div class="field">
-            <input type="text" placeholder=" " v-model.trim="userInfo.password">
+          <div :class="['field',dispMode]">
+            <input type="password" class="password" placeholder=" " v-model.trim="userInfo.password" v-on:keyup.enter="login">
             <div class="label">Password</div>
           </div>
           <button @click="login">Login</button>
+          <div v-if="response!=null" :class="['login-message',dispMode]">{{response.payload.message}}</div>
         </div>
 
       </div>
@@ -28,15 +29,28 @@ export default {
   data: function(){
     return {
       userInfo: {
-        username: '',
+        email: 'me@benbroad.com',
         password: ''
-      }
+      },
+      response: null
     }
+  },
+  computed: {
+    dispMode: function(){
+      return  this.$store.state.displayMode;
+    },
   },
   methods: {
     login: function(){
-      this.$store.dispatch('login',{'username':this.userInfo.username,'password':this.userInfo.password})
-    //  alert(this.userInfo.username + ' - ' + this.userInfo.password);
+      console.log({'email':this.userInfo.email,'password':this.userInfo.password});
+      this.$store.dispatch('login',{'email':this.userInfo.email,'password':this.userInfo.password})
+        .then((response)=>{
+          console.log(response);
+        })
+        .catch(err => {
+          console.log("--ERROR--");
+          this.response = err;
+        })
     }
   }
 };
@@ -53,11 +67,12 @@ export default {
   font-style: normal;
 }
 
+.field > .label {top: 1.5rem;}
+
 .login {margin-bottom: 4rem;}
 
 .login_area {height: auto;
             width: auto;
-            background-color: #ffffff;
             margin-left: auto;
             margin-right: auto;
             line-height: 1rem;
@@ -86,6 +101,16 @@ export default {
 
       .input_area {margin-top: 2rem;
 
+        > .login-message.dark {color: #e3e3e3;}
+        > .login-message {width: 100%;
+                          text-align: center;
+                          color: #333333;
+                          font-size: 1rem;
+                          padding: 0.5rem;
+                          margin-top: 1rem;
+                          border: 1px solid #dedede;
+                          border-radius: 0.25rem;}
+
         button {padding: 0.8rem 1.8rem;
                 margin-top: 0.5rem;
                 font-size: 1.5rem;
@@ -104,65 +129,6 @@ export default {
 
         button:hover {box-shadow: 1px 1px 3px rgba(45, 78, 40, 1);}
 
-        .field {width: calc(100% - 0rem);
-                margin: 0.5rem 0rem;
-                height: 4rem;
-                position: relative;
-                min-height: 2.5rem;
-                background-color: #ffffff;
-                border: 1px solid #f2f2f2;
-                border-radius: 0.3rem;
-                box-shadow: 0px 1px 1px rgba(63, 102, 57, 0.20);
-
-          .label {position: absolute;
-                  top: 1.45rem;
-                  left: 0.5rem;
-                  color: #b4b4b4;
-                  font-size: 1.2rem;
-                  font-weight: 100;
-                  transition: top 250ms ease, top 250ms ease, top 250ms ease;
-                  pointer-events: none;}
-
-
-          input[type='text'],input[type='password'] {position: absolute;
-                top: 0;
-                left: 0;
-                font-size: 1.8rem;
-                width: calc(100% - 1rem);
-                padding: 0rem 0.5rem;
-                height: 3rem;
-                background-color: transparent;
-                font-family: 'Quicksand', sans-serif;
-                font-weight: 500;
-                border: 0;
-                outline: 0;
-                margin-top: 0.5rem;
-              }
-            input:not(:placeholder-shown) + .label{
-                top: 0rem;
-                left: 0.5rem;
-                font-size: 0.6rem;
-                font-weight: 100;
-            }
-            }
-            .field:focus-within {border: 1px solid $mainGold;}
-            .field:focus-within > .label {top: 0.1rem;
-                                          left: 0.5rem;
-                                          font-size: 0.6rem;
-                                          font-weight: 100;}
-
-
-            .half {width: calc(50% - 1rem);
-                  margin-left: 0.5rem;
-                  margin-right: 0.5rem;
-                  display: inline-block;
-                  vertical-align: top;}
-
-            .quarter {width: calc(25% - 1rem);
-                  margin-left: 0.5rem;
-                  margin-right: 0.5rem;
-                  display: inline-block;
-                  vertical-align: top;}
           }
         }
       }
@@ -170,6 +136,9 @@ export default {
 h2 {font-size: 1.7rem;
     color: $mainGray;
     font-family: 'goma';}
+
+h2.dark {color: $darkModeText;}
+
 h1 {font-size: 2rem;}
 
 </style>

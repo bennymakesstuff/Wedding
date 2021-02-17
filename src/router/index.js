@@ -18,6 +18,18 @@ const routes = [
     component: Home
   },
   {
+    path: "/Gmailcallback",
+    name: "gmailcallback",
+    component: () =>
+      import(/* webpackChunkName: "login" */ "../views/loggedOut/gmailcallback.vue")
+  },
+  {
+    path: "/verification/:code",
+    name: "verification",
+    component: () =>
+      import(/* webpackChunkName: "login" */ "../views/loggedIn/account/Verify_Account.vue")
+  },
+  {
     path: "/login",
     name: "login",
     // route level code-splitting
@@ -167,6 +179,22 @@ const routes = [
       }
     },
     {
+      path: 'new-beer',
+      name: 'new_beer',
+      components: {
+        default: () =>
+          import(/* webpackChunkName: "dashboard" */ "../views/loggedIn/beer/NewBeer.vue"),
+      }
+    },
+    {
+      path: 'new-sesh',
+      name: 'new_sesh',
+      components: {
+        default: () =>
+          import(/* webpackChunkName: "dashboard" */ "../views/loggedIn/sessions/NewSesh.vue"),
+      }
+    },
+    {
       path: 'ideas',
       name: 'user_ideas',
       components: {
@@ -208,43 +236,56 @@ const router = new VueRouter({
 
 //Add extra parts to make it if the user is logged in to not go to login or register
 router.beforeEach((to, from, next) => {
-    if(to.matched.some(record => record.meta.requiresAuth)) {
-        if (localStorage.getItem('token') == null) {
-            next({
-                path: '/login',
-                params: { nextUrl: to.fullPath }
-            })
-        } else {
-            if(localStorage.hasOwnProperty('user')){
-              var user = JSON.parse(localStorage.getItem('user'));
-              console.log('User Found');
-            }
-            else{
-
-            }
-            if(to.matched.some(record => record.meta.is_admin)) {
-              if(user.is_admin == true){
-                next()
+      if(to.matched.some(record => record.meta.requiresAuth)) {
+          if (localStorage.getItem('token') == null) {
+              next({
+                  path: '/login',
+                  params: { nextUrl: to.fullPath }
+              })
+          } else {
+              if(localStorage.hasOwnProperty('token')){
+                console.log(from);
+                if(from.name!='login'){
+                  var token = localStorage.getItem('token');
+                  console.log('User Token Found - Checking it for Validity');
+                  console.log(token);
+                  Store.dispatch('check_valid_token', token);
+                }
               }
               else{
-                next({name:'user_dashboard'})
+                console.log("No Token Found");
+                //Store.dispatch('logout');
               }
-            }
-            else{
+
+
+              if(to.matched.some(record => record.meta.is_admin)) {
+                if(user.is_admin == true){
+                  next()
+                }
+                else{
+                  next({name:'user_dashboard'})
+                }
+              }
+              else{
+                next()
+              }
+
+          }
+      } else if(to.matched.some(record => record.meta.guest)) {
+          if(localStorage.getItem('token') == null){
+              console.log("No Token Found");
               next()
-            }
-        }
-    } else if(to.matched.some(record => record.meta.guest)) {
-        if(localStorage.getItem('token') == null){
-            next()
-        }
-        else{
-            next({ name: 'user_dashboard'})
-        }
-    }else {
-        next()
-    }
-    window.scrollTo(0, 0);
+          }
+          else{
+              next({ name: 'user_dashboard'})
+          }
+      }else {
+          if(!localStorage.hasOwnProperty('token')){
+            Store.dispatch('remove_user_data');
+          }
+          next()
+      }
+      window.scrollTo(0, 0);
 })
 
 

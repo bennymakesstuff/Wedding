@@ -1,3 +1,5 @@
+'use-strict'
+
 var path = require('path');
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -12,17 +14,20 @@ const application_settings = {
 
 module.exports = {
 
-  entry: {
-    home: ["./src/main.js"],
-  },
-
+  entry: [
+    './src/main.js',
+  ],
+  mode: 'development',
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "public"),
-    publicPath: '/',
+    publicPath: './',
   },
-
-
+  resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'src/utilities/'),
+      },
+    },
   module: {
     rules: [
       {
@@ -37,7 +42,7 @@ module.exports = {
         test: /\.scss$/,
         use: [
           "vue-style-loader",
-          "css-loader",
+          { loader: 'css-loader', options: { esModule: false }},
           "sass-loader"
         ]
       },
@@ -67,14 +72,18 @@ module.exports = {
     contentBase: path.join(__dirname, 'public'),
     compress: true,
     port: 9000,
-    host: '0.0.0.0',
     hot: true,
+    https: true,
+    liveReload: true,
+    overlay: true,
     writeToDisk: true,
-    publicPath: '/public/',
+    publicPath: '',
     hotOnly: true,
     historyApiFallback: true,
   },
 
 
-  plugins: [new VueLoaderPlugin(), new HtmlWebpackPlugin(application_settings)]
+  plugins: [new VueLoaderPlugin(),
+            new HtmlWebpackPlugin(application_settings)
+          ]
 };

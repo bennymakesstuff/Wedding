@@ -32,6 +32,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+
 .block {
     width: 100%;
     border: 1px solid red;

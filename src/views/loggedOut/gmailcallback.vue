@@ -3,16 +3,11 @@
     <div class="hero">
       <div class="hero_inner">
         <div class="title_area">
-          <h1 :class="[this.$store.state.displayMode]">Got a beer obsession</h1>
-          <h1 :class="[this.$store.state.displayMode]">to keep track of</h1>
-          <br>
-          <h1 :class="[this.$store.state.displayMode]">Same here</h1>
+          <h1 :class="[this.$store.state.displayMode]">{{info.code[0]}}</h1>
         </div>
 
       </div>
     </div>
-    <latest-local-releases/>
-    <latest-afar-releases/>
   </div>
 </template>
 
@@ -27,8 +22,37 @@ export default {
     'latest-afar-releases':LatestAfarReleases,
   },
   data: function(){
-    return {}
+    return {
+      info: null
+    }
   },
+  computed: {
+
+  },
+  mounted(){
+    this.info = this.parseURLParams(window.location.href);
+  },
+  methods: {
+    parseURLParams: function(url) {
+      var queryStart = url.indexOf("?") + 1,
+          queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+          query = url.slice(queryStart, queryEnd - 1),
+          pairs = query.replace(/\+/g, " ").split("&"),
+          parms = {}, i, n, v, nv;
+
+      if (query === url || query === "") return;
+
+      for (i = 0; i < pairs.length; i++) {
+          nv = pairs[i].split("=", 2);
+          n = decodeURIComponent(nv[0]);
+          v = decodeURIComponent(nv[1]);
+
+          if (!parms.hasOwnProperty(n)) parms[n] = [];
+          parms[n].push(nv.length === 2 ? v : null);
+      }
+      return parms;
+  }
+  }
 };
 </script>
 <style lang="scss" scoped>

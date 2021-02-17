@@ -1,7 +1,6 @@
 <template>
   <div class="application">
-    <h1>Beer Feed</h1>
-
+    <div :class="['hello',dispMode]">Hi {{this.$store.state.user.given_name}}</div>
   </div>
 </template>
 
@@ -37,16 +36,51 @@ export default {
 
     }
   },
+  methods: {
+    dispMode: function(){
+      return  this.$store.state.displayMode;
+    },
+  }
 };
 
 </script>
 
 <style lang="scss" scoped>
+@import '../../../ui/styles/breakpoints.scss';
+@import '../../../ui/styles/colors.scss';
+@import '../../../ui/styles/globals.scss';
+
+
+.hello.dark {font-size: 1.7rem; font-family: 'goma'; color: #e3e3e3;}
+.hello {font-size: 1.7rem; font-family: 'goma'; color: $darkModeBGColor;}
+
 .application {font-size: 0.8rem;
               height: auto;
               text-align: left;
-              padding: 1rem;
+              padding: 0.5rem;
               color: #131517;
+
+.actions.dark {background-color: lighten($darkModeBGColor, 5%);}
+.actions.dark {
+          > .button {border: 1px solid lighten($darkModeBGColor, 8%);}
+}
+
+.actions {background-color: #ffffff;
+          height: auto;
+          padding: 1rem;
+          border-radius: 0.15rem;
+          box-shadow: 1px 1px 3px 3px rgba(#333333, 0.1);
+          text-align: center;
+
+
+          > .button {width: calc(45%);
+                    padding: 1.5rem 0.5rem;
+                    background-color: #d29a1b;
+                    font-size: 1.2rem;}
+
+          > .button:first-child {margin-right: 1rem;}
+
+          }
 
 
 .quicklinks {padding-bottom: 10px;

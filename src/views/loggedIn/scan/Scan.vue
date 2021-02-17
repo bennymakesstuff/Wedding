@@ -8,7 +8,7 @@
 
 
 <script>
-import Scanner from '../../../ui/scanner2.vue';
+import Scanner from '../../../ui/scanner3.vue';
 
 export default {
   name: 'neworder',
@@ -26,7 +26,8 @@ export default {
               padding: 0.5rem;
               color: #131517;
 
-  h1 {font-size: 1.5rem;}
-  h3 {color: #8b8b8b;}
+  > h1 {font-size: 1.5rem;}
+  > h2 {font-size: 1rem;}
+  > h3 {color: #8b8b8b;}
 }
 </style>

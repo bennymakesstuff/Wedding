@@ -1,4 +1,11 @@
 // Colour Defenitions
+/*@font-face {
+  font-family: 'goma';
+  src: url('../ui/goma_block.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}*/
+
 
 $edibundleGreen: #3b8f42;
 $lightButtonHover: #eaf3e9f1;
@@ -27,3 +34,11 @@ $contentShadows: 0px 0px 5px #dbdbdb;
 $contentLines: #eaeaea;
 
 $heroTextShadow: rgba(33, 59, 37, 0.5);
+
+
+
+// DARK MODE
+$darkModeBGColor: #293440;
+$darkModeMainHeader: #252f3b;
+$darkModeText: #e3e3e3;
+$darkMenuShadow: 0px 0px 15px #101112;

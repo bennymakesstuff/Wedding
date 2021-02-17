@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="button-group">
-      <b-button>Edit Details</b-button>
+      <b-button class="button-title">Edit Details</b-button>
     </div>
     <div class="detail-block">
       <div class="title">Name</div>
-      <div class="content">{{ user.firstname }} {{ user.surname }}</div>
+      <div class="content">{{ this.$store.state.user.given_name }} {{ this.$store.state.user.family_name }}</div>
     </div>
     <div class="detail-block">
       <div class="title">Email Address</div>
-      <div class="content">{{ user.email }}</div>
+      <div class="content">{{ this.$store.state.user.email }}</div>
     </div>
   </div>
 </template>
@@ -22,11 +22,7 @@ export default {
   },
   data: function(){
     return {
-      user: {
-        firstname: 'Benjamin',
-        surname: 'Broad',
-        email: 'me@benbroad.com'
-      }
+
     }
   },
 };
@@ -34,6 +30,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+
+.button-title {font-family: 'goma';}
 
   .button-group {position: absolute;
                 top: 10px;
@@ -49,7 +48,8 @@ export default {
 
     .title {font-size: 0.8rem;
             color: #7e7e7e;
-            margin-bottom: 5px;}
+            margin-bottom: 5px;
+          letter-spacing: 0.05rem;}
 
     .content {font-size: 0.8rem;
             color: #7e7e7e;}

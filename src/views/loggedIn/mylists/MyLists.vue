@@ -42,7 +42,6 @@ export default {
 
 .hero {min-height: 2rem;
       width: 100%;
-      background-color: #ffffff;
       padding-bottom: 1rem;
       line-height: 1rem;
       height: auto;

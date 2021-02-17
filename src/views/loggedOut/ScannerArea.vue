@@ -6,7 +6,7 @@
       <div :class="['scanner_area', isScannerOpen]">
         <div class="scanner-title-area">
           <div class="close-button" @click="closeScanner()">x</div>
-          <div class="scanner-title">Scan-o-brew</div>
+          <div class="scanner-title">Scan-o-beero</div>
         </div>
         <scanner/>
       </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import Scanner from '../../ui/scanner2.vue';
+import Scanner from '../../ui/scanner3.vue';
 
 export default {
   name: "ScannerButton",
