@@ -1,188 +1,31 @@
 <template>
-  <div :class="['menu', dispMode]">
-    <div :class="['logo_area',dispMode]"></div>
-    <div class="button_area">
-      <div class="large_menu">
-        <router-link v-if="!userLoggedIn" :to="{ name: 'home'}" class="menu_item">Home</router-link>
-        <router-link v-if="!userLoggedIn" :to="{ name: 'local_releases'}" class="menu_item">Local Releases</router-link>
-        <router-link :to="{ name: 'register'}" v-if="!userLoggedIn" class="menu_item">Sign Up</router-link>
-        <router-link v-if="userLoggedIn && !userIsAdmin" :to="{ name: 'user_scan'}" class="menu_item">Scan</router-link>
-        <router-link v-if="userLoggedIn && !userIsAdmin" :to="{ name: 'about'}" class="menu_item">My Lists</router-link>
-        <div v-if="userLoggedIn" @click="logout" class="menu_item">Logout</div>
-      </div>
-      <button :class="['menu_trigger',dispMode]" @click="menuControl('open')">
-        <div class="icon">
-          <div class="menu_bar"/>
-          <div class="menu_bar"/>
-          <div class="menu_bar"/>
-        </div>
-        <div class="text">Menu</div>
-      </button>
-      <button :class="['menu_login',dispMode]" v-if="!userLoggedIn" @click="gotToPage('login')">
-        <div class="icon">
+  <div>
+    <div class="hero">
+      <div class="hero_inner">
+        <div class="title_area">
 
         </div>
-        <div class="text">Login</div>
-      </button>
+      </div>
     </div>
 
-    <div :class="['mobile_menu_page_overlay', overlayStatus]" @click="menuControl('close')"></div>
-    <div :class="['mobile_menu', mobileMenuStatus, dispMode]">
-      <div :class="['logo_area_mobile_menu',dispMode]">
-        <div :class="['logo_inner', dispMode]">
-          <div class="beta">BETA</div>
+    <div class="menu">
+      <div class="button_area">
+        <div class="large_menu">
+          <router-link :to="{ name: 'home'}" class="menu_item">Details</router-link>
+          <router-link :to="{ name: 'rsvp'}" class="menu_item">RSVP</router-link>
+          <router-link :to="{ name: 'party'}" class="menu_item">Wedding Party</router-link>
+          <router-link :to="{ name: 'accomodation'}" class="menu_item">Accomodation</router-link>
         </div>
-      </div>
-      <div class="mobile_menu_item scan_item" @click="openScanner()" v-if="this.$store.state.scanning==true">
-        <div class="scan_button">
-          <div class="scan_logo"></div>
-          <div class="scan_text">Scan a Brew</div>
-        </div>
-      </div>
-      <div :class="['mobile_menu_item',dispMode]" v-if="userLoggedIn" @click="gotToPage('user_account')">
-        <div class="icon"></div>
-        <div class="text">{{this.$store.state.user.given_name}}</div>
-      </div>
-      <div :class="['mobile_menu_item',dispMode]" v-if="!userLoggedIn" @click="gotToPage('home')">
-        <div class="icon"></div>
-        <div class="text">Home</div>
-      </div>
-      <div :class="['mobile_menu_item',dispMode]" v-if="userLoggedIn" @click="gotToPage('thecrawl')">
-        <div class="icon"></div>
-        <div class="text">My Sessions</div>
-      </div>
-      <div :class="['mobile_menu_item',dispMode]" v-if="userLoggedIn" @click="gotToPage('user_lists')">
-        <div class="icon"></div>
-        <div class="text">My Lists</div>
-      </div>
-      <div :class="['mobile_menu_item',dispMode]" @click="gotToPage('local_releases')">
-        <div class="icon"></div>
-        <div class="text">Local Releases</div>
-      </div>
-      <div :class="['mobile_menu_item',dispMode]" @click="gotToPage('local_releases')">
-        <div class="icon"></div>
-        <div class="text">Not as Local Releases</div>
-      </div>
-      <div :class="['mobile_menu_item',dispMode]" v-if="!userLoggedIn" @click="gotToPage('login')">
-        <div class="icon"></div>
-        <div class="text">Login</div>
-      </div>
-      <div :class="['mobile_menu_item',dispMode]" v-if="userLoggedIn" @click="logout()">
-        <div class="icon"></div>
-        <div class="text">Logout</div>
-      </div>
-      <div :class="['mobile_menu_item',dispMode]" v-if="!userLoggedIn" @click="gotToPage('register')">
-        <div class="icon"></div>
-        <div class="text">Sign up</div>
-      </div>
-      <div :class="['mobile_menu_item', 'dark-mode-toggle',dispMode]">
-        <div class="icon"><input type="checkbox" :checked="isDarkModeOn" class="regular-checkbox big-checkbox" @click="toggleDarkMode"/></div>
-        <div class="text">Dark Mode</div>
       </div>
     </div>
+    <hr class="rule"/>
   </div>
 </template>
 
 <script>
-import Button from '../../ui/button.vue';
-import UserIcon from '../../ui/icons/icon-person-fill.vue';
-import IconBase from '../../ui/icons/icon-base.vue';
 
 export default {
   name: "MainMenu",
-  components: {
-    'ben-button':Button,
-    'user-icon':UserIcon,
-    'icon-base':IconBase
-  },
-  data: function(){
-    return {
-      buttonContent: {content: "User Login",
-                id: 'defaultButton',
-                size: 'medium',
-                type: '',
-                icon: true,
-                shadow: 'low',
-                location: 'login'},
-          }
-  },
-  computed: {
-    isDarkModeOn: function(){
-      return (this.$store.state.displayMode=='dark') ? 'checked' : '';
-    },
-    dispMode: function(){
-      return  this.$store.state.displayMode;
-    },
-    mobile_menu_open: function(){
-        return this.$store.state.menu.isOpen;
-    },
-    overlay_open: function(){
-        return this.$store.state.menu.isOpen;
-    },
-    userLoggedIn: function(){
-      if(this.$store.state.user==null){
-        return false;
-      }
-      else{
-        return true;
-      }
-    },
-    userIsAdmin: function(){
-      if(this.$store.state.user.is_admin==true){
-        return true;
-      }
-      else{
-        return false;
-      }
-    },
-    mobileMenuStatus: function(){
-      if(this.mobile_menu_open==true){
-        return 'mobile_menu_open';
-      }
-      else{
-        return 'mobile_menu_closed';
-      }
-    },
-    overlayStatus: function(){
-      if(this.mobile_menu_open==true){
-        return 'overlay_open';
-      }
-      else{
-        return 'overlay_closed';
-      }
-    }
-  },
-  methods: {
-    toggleDarkMode: function(){
-      this.$store.dispatch('toggle_dark_mode');
-    },
-    logout: function(){
-      this.$store.dispatch('logout');
-      this.menuControl('close');
-    },
-    gotToPage: function(page){
-      this.$store.dispatch('change_page', page);
-      this.menuControl('close');
-    },
-    navigateTo: function(location){
-        this.$router.push({name: location})
-          .catch(function(error){
-            console.log("Already at this location. Navigation Ignored.")
-          });
-          this.menuControl('close');
-          //window.scrollTo(0, 0);
-    },
-    menuControl: function(action){
-      this.$store.dispatch('menu_control', action);
-    },
-    closeScanner: function(){
-      this.$store.dispatch('toggle_scanner', false);
-    },
-    openScanner: function(){
-      this.menuControl('close');
-      this.$store.dispatch('toggle_scanner', true);
-    }
-  }
 };
 </script>
 <style lang="scss" scoped>
@@ -190,423 +33,134 @@ export default {
 @import '../../ui/styles/breakpoints.scss';
 @import '../../ui/styles/globals.scss';
 
+.rule {max-width: calc(100% - 2rem);
+      width: 30rem;
+      margin: 0.75rem;
+      margin-left: auto;
+      margin-right: auto;
+      background-color:rgba(#637460, 0.3);
+      height: 1px;
+      }
 
-.dark-mode-toggle {position: absolute;
-                  bottom: 0;
-                  left: 0;
-                  width: 100%;
-
-            > .icon {
-
-                > .regular-checkbox{
-                  -webkit-appearance: none;
-                  	background-color: #fafafa;
-                  	border: 1px solid #cacece;
-                  	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
-                  	padding: 9px;
-                    margin: 1rem;
-                  	border-radius: 3px;
-                  	display: inline-block;
-                  	position: relative;
-                  }
-
-                  > .regular-checkbox:active, > .regular-checkbox:checked:active {
-                    	//box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
-                      outline: none;
-                    }
-
-                  > .regular-checkbox:checked {
-                    	background-color: #e9ecee;
-                    	border: 1px solid #adb8c0;
-                      outline: none;
-                    	//box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
-                    	color: #99a1a7;
-                    }
-
-                    > .regular-checkbox:checked:after {
-                      	content: '\2714';
-                      	font-size: 14px;
-                        outline: none;
-                      	position: absolute;
-                      	top: 0px;
-                      	left: 3px;
-                      	color: #1c558a;
-                      }
-
-                    > .big-checkbox {
-                      	padding: 15px;
-                      }
-
-                    > .big-checkbox:checked:after {
-                      	font-size: 23px;
-                      	left: 6px;
-                      }
-                }
-              }
-
-
-.loginButton {
-  @include respond-to('small'){
-    display: none;
-  }
-  @include respond-to('medium'){
-    display: none;
-  }
-  @include respond-to('large'){
-    display: none;
-  }
-}
-
-
-.menu.dark {background-color: $darkModeMainHeader;
-            color: #e3e3e3;
-            box-shadow: 0px 0px 5px #101112;}
 
 .menu {height: $mainMenuHeight;
-      width: 100%;
-      position: fixed;
-      z-index: 100;
-      top: 0;
-      box-shadow: 0px 0px 5px #d0d0d0;
+      width: auto;
+      position: relative;
+      background-color: #ffffff;
 
       .button_area {width: auto;
-                  position: absolute;
-                  top: 1.5rem;
-                  right: 1rem;
+                  position: relative;
+                  margin-left: auto;
+                  margin-right: auto;
                   height: 2rem;
+                  margin-left: 0rem;
 
                   @include respond-to('small'){
-                    right: 1.3rem;
+
+                  }
+                  @include respond-to('large'){
+                    margin-left: 1rem;
                   }
 
           .large_menu {width: auto;
-                      display: none;
+                      display: inline-block;
                       vertical-align: top;
-                      margin-right: 0.5rem;
+                      width: 100%;
 
                       @include respond-to('small'){
-                        display: none;
+                        display: inline-block;
                       }
                       @include respond-to('medium'){
                         display: inline-block;
                       }
 
-            .menu_item {color: $mainMenuTextColor;
+            .menu_item {color: #404240;
                         height: 3rem;
-                        line-height: 2.25rem;
-                        font-size: 0.9rem;
-                        padding: 0.5rem 1rem;
+                        line-height: 1.75rem;
+                        font-size: 1.25rem;
+                        padding: 0.5rem 0.5rem;
                         display: inline-block;
                         vertical-align: top;
                         cursor: pointer;
                         border-radius: 0.2rem;
+                        font-family: 'Caveat', cursive;
+                        transition: border 150ms ease, color 150ms ease;
+
+                        @include respond-to('small'){
+                          font-size: 1.2rem;
+                        }
+                        @include respond-to('medium'){
+                          font-size: 1.5rem;
+                          padding: 0.5rem 1rem;
+                        }
+                        @include respond-to('large'){
+
+                        }
                       }
 
-            .menu_item:hover {background-color: #fff7da;}
+            .menu_item:hover {color: #637460;}
                   }
 
-          .menu_trigger {border-radius: 0.15rem;
-                     border: 0;
-                     width: auto;
-                     height: 2.5rem;
-                     background-color: transparent;
-                     border: 1px solid $mainGold;
-                     color: #f1f1f1;
-                     font-size: 0.9rem;
-                     cursor: pointer;
-                     outline: none;
-                     padding: 0.45rem;
-
-                     @include respond-to('small'){
-
-                     }
-                     @include respond-to('medium'){
-                       display: none;
-                     }
-
-                     .icon {height: 1.2rem;
-                           width: 1.5rem;
-                           background-color: #ffffff;
-                           margin: 0.0rem;
-                           margin-bottom: 0.15rem;
-                           margin-top: 0.05rem;
-                           background-color: transparent;
-                           display: inline-block;
-                           vertical-align: top;
-                           position: relative;
-                           pointer-events: none;
-
-                        .menu_bar {height: 0.3rem;
-                                  margin-bottom: 0.25rem;
-                                  border-radius: 0.05rem;
-                                  width: 100%;
-                                  background-color: $mainGold;
-                                  pointer-events: none;}
-
-                        .menu-bar:last-child {margin-bottom: 0;}
-                         }
-
-                    .text {height: 1.2rem;
-                          width: auto;
-                          line-height: 1.3rem;
-                          font-size: 0.9rem;
-                          background-color: transparent;
-                          margin: 0.15rem;
-                          display: none;
-                          vertical-align: top;
-                          position: relative;
-                          color: $mainGold;
-                          pointer-events: none;
-
-                          @include respond-to('small'){
-                            display: inline-block;
-                          }
-                        }
-                  }
-
-                .menu_trigger.dark:hover {background-color: lighten($darkModeMainHeader, 10%);}
-                .menu_trigger:hover {background-color: #fff7da;}
-
-
-                .menu_login {border-radius: 0.15rem;
-                           border: 0;
-                           width: auto;
-                           height: 2.5rem;
-                           background-color: transparent;
-                           border: 1px solid $mainGold;
-                           color: #f1f1f1;
-                           font-size: 0.9rem;
-                           cursor: pointer;
-                           outline: none;
-                           padding: 0.45rem;
-                           background: transparent url('../../assets/user-login-button.png') no-repeat;
-                           background-size: contain;
-
-                           @include respond-to('small'){
-
-                           }
-                           @include respond-to('medium'){
-
-                           }
-
-                           .icon {height: 1.2rem;
-                                 width: 1.5rem;
-                                 background-color: #ffffff;
-                                 margin: 0.0rem;
-                                 margin-bottom: 0.15rem;
-                                 margin-top: 0.05rem;
-                                 background-color: transparent;
-                                 display: inline-block;
-                                 vertical-align: top;
-                                 position: relative;
-                                 pointer-events: none;
-
-                              .menu_bar {height: 0.3rem;
-                                        margin-bottom: 0.25rem;
-                                        border-radius: 0.05rem;
-                                        width: 100%;
-                                        background-color: $mainGray;
-                                        pointer-events: none;}
-
-                              .menu-bar:last-child {margin-bottom: 0;}
-                               }
-
-                          .text {height: 1.2rem;
-                                width: auto;
-                                line-height: 1.3rem;
-                                font-size: 0.9rem;
-                                background-color: transparent;
-                                margin: 0.15rem;
-                                color: #333333;
-                                display: none;
-                                vertical-align: top;
-                                position: relative;
-                                color: $mainGold;
-                                pointer-events: none;
-
-                                @include respond-to('small'){
-                                  display: inline-block;
-                                }
-                              }
-                        }
-
-                      .menu_login.dark:hover {background-color: lighten($darkModeMainHeader, 10%);}
-                      .menu_login:hover {background-color: #fff7da;}
-                      }
-
-
-      .logo_area.dark {background: transparent url('../../assets/haveihadlight.png') no-repeat;
-                      background-size: contain;
-                      background-position: center;}
-      .logo_area {width: auto;
-                  position: absolute;
-                  top: 0.3rem;
-                  left: 1rem;
-                  height: 5.5rem;
-                  background: transparent url('../../assets/logo_color_600w_beta.png') no-repeat;
-                  background-size: contain;
-                  background-position: center;
-                  line-height: 5.5rem;
-                  font-size: 1.5rem;
-                  width: 15rem;
-                  color: $mainGray;
-
-          @include respond-to('small'){
-
-          }
-          @include respond-to('medium'){
-
-          }
-          @include respond-to('large'){
-
-          }
         }
-
-.mobile_menu_page_overlay {background-color: rgba(#4f4f4f, 0.4);
-                          position: fixed;
-                          top: 0;
-                          z-index: 110;
-                          height: 100vh;
-                          width: 100vw;}
-
-.overlay_closed {left: -110vw;}
-.overlay_open {left: 0;}
-
-.mobile_menu.light {background-color: $mobileMenuColor;}
-
-.mobile_menu.dark {background-color: $darkModeBGColor;
-                  color: #e3e3e3;
-                  box-shadow: $darkMenuShadow}
-
-.mobile_menu {position: fixed;
-              top: 0;
-              width: $mobileMenuWidth;
-              height: 100vh;
-              z-index: 120;
-              background-color: $mobileMenuColor;
-              box-shadow: $mobileMenuShadow;
-              transition: left 100ms ease;
-
-
-              .logo_area_mobile_menu.dark {border-bottom: 1px solid #222328;}
-              .logo_area_mobile_menu {width: 100%;
-                        border-bottom: 1px solid #e6e6e6;
-                        text-align: center;
-                        height: 6rem;
-                        line-height: 6rem;
-
-                    .logo_inner.dark {background: transparent url('../../assets/haveihadlight.png') no-repeat;
-                                      background-position: center;
-                                      background-size: contain;}
-                    .logo_inner {height: 4rem;
-                                width: 12rem;
-                                background: transparent url('../../assets/logo_color_600w_beta.png') no-repeat;
-                                background-position: center;
-                                background-size: contain;
-                                display: inline-block;
-                                vertical-align: middle;
-                                line-height: 4rem;
-                                font-size: 1.5rem;
-                                color: $mainGray;
-                                position: relative;
-                                background-color: transparent;}
-
-                      .beta {position: absolute;
-                        display: none;
-                            top: -0.1rem;
-                            right: -0.8rem;
-                            box-shadow: $betaChipShadow;
-                            transform: rotate(15deg);
-                            background-color: $betaChipBackground;
-                            border-radius: 0.15rem;
-                            font-size: 0.7rem;
-                            padding: 0.15rem;
-                            line-height: 0.7rem;
-                            color: #ffffff;
-                            width: 2rem;
-                            height: 0.8rem;}
-
-                      }
-          .mobile_menu_item.dark {border-bottom: 1px solid #222328;}
-          .mobile_menu_item {border-bottom: 1px solid #e6e6e6;
-                            height: 4rem;
-                            padding: 0;
-                            line-height: 4rem;
-                            text-align: left;
-                            cursor: pointer;
-
-
-                            > .icon {height: 4rem;
-                                  width: 4rem;
-                                  background-color: transparent;
-                                  line-height: 4rem;
-                                  display: inline-block;
-                                  vertical-align: top;}
-
-                            > .text {height: 4rem;
-                                  line-height: 4rem;
-                                  padding: 0rem 0.7rem;
-                                  display: inline-block;
-                                  vertical-align: top;}
-
-            .scan_button {height: 4rem;
-                  border-radius: 0.25rem;
-                  width: auto;
-                  min-width: 3rem;
-                  //max-width: 10rem;
-                  line-height: 3rem;
-                  font-size: 0rem;
-                  background-color: $mainGold;
-                  color: #333333;
-                  position: fixed;
-                  box-shadow: 0px 0px 5px #d0d0d0;
-                  position: relative;
-                  display: inline-block;
-                  vertical-align: middle;
-
-
-                  @include respond-to('medium'){
-
-                  }
-
-
-                  .scan_logo {width: 4rem;
-                        height: 4rem;
-                        background-color: transparent;
-                        display: inline-block;
-                        vertical-align: top;
-                        background: transparent url('../../assets/scan_logo.png') no-repeat;
-                        background-position: center;
-                        background-size: 70%;}
-
-                  .scan_text {width: auto;
-                        height: 4rem;
-                        font-size: 1.2rem;
-                        background-color: transparent;
-                        padding: 0rem 1.4rem;
-                        padding-left: 0.3rem;
-                        line-height: 4rem;
-                        display: inline-block;
-                        vertical-align: middle;
-                        color: #ffffff;}
-            }
-          }
-
-        .mobile_menu_item.dark:hover {background-color: #232d38;}
-        .mobile_menu_item:hover {background-color: #eeeeee;}
-
-        .scan_item {text-align: center;
-                    height: 5.5rem;
-                    line-height: 5.5rem;}
-
-            }
-
-.mobile_menu_open {left: 0px;}
-.mobile_menu_closed {left: -100vw;}
-
-
     }
 
-h1 {font-size: 2rem;}
+
+.hero {min-height: 20rem;
+      width: 100%;
+      line-height: 1rem;
+      min-height: 10rem;
+      padding-bottom: 0rem;
+      height: auto;
+      position: relative;
+      text-align: center;
+      font-size: 0;
+      padding-top: 1rem;
+      margin-bottom: 0rem;
+      background-color: #ffffff;
+
+      .hero_inner {width: 100%;
+                    border: transparent;
+                    height: 100%;
+                    display: inline-block;
+                    margin-left: auto;
+                    margin-right: auto;
+                    padding-top: 0rem;
+                    //margin-top: -3rem;
+
+                    @include respond-to('medium'){
+                      width: 50rem;
+                    }
+
+                    .title_area {width: 100%;
+                                height: 15rem;
+                                font-size: 0;
+                                position: relative;
+                                background: transparent url('../../assets/benchelslogo.png') no-repeat;
+                                background-size: contain;
+                                background-position: center;
+
+                                @include respond-to('small'){
+                                  height: 3.5rem;
+                                }
+                                @include respond-to('medium'){
+                                  height: 20rem;
+                                }
+                                @include respond-to('large'){
+                                  height: 20rem;
+                                }
+
+                                h1 {font-size: 2rem;
+                                  line-height: 2.6rem;
+                                    font-weight: 400;
+                                    font-family: 'goma';
+
+                                    margin: 0;
+                                    padding: 0;
+                                    color: $mainGray;
+                                    text-shadow: 0px 1px 5px $heroTextShadow;}
+
+                    }
+              }
+    }
 
 </style>

@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 const application_settings = {
-  title: "Have I Had This Beer",
+  title: "Ben & Chels do a wedding",
   filename: "index.html",
   template: "./src/index.html"
 };
